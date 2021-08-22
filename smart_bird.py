@@ -3,6 +3,8 @@ import os
 import random
 import neat
 
+
+# Global variables
 PLAYING_AI = True
 GENERATION = 0
 
@@ -23,7 +25,35 @@ SCORE_FONT = pygame.font.SysFont('arial', 40)
 
 
 class Birds:
+	# general variables of birds
 	IMGS = BIRD_IMGS
 	MAX_ROTATION = 25
 	MAX_VELOCITY = 20
 	ANIMATION_TIME = 5
+
+	# general settings of bird moviments
+	    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.angle = 0
+        self.velocity = 0
+        self.height = self.y
+        self.time = 0
+        self.img_count = 0
+        self.image = self.IMGS[0]
+
+    # sets vertical moviment of bird
+    def jump(self):
+        self.velocity = -10.5
+        self.time = 0
+        self.height = self.y
+
+    def move(self):
+    	 self.time += 1
+        moviment = 1.5 * (self.time**2) + self.velocity * self.time
+
+
+
+
+
+        
