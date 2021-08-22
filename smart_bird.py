@@ -49,10 +49,18 @@ class Birds:
         self.height = self.y
 
     def move(self):
-    	 self.time += 1
+    	self.time += 1
         moviment = 1.5 * (self.time**2) + self.velocity * self.time
 
-    #restrict translating
+    # restrict translating
+        if translating > 16:
+            translating = 16
+        elif translating < 0:
+            translating -=2
+        
+        self.y += translating
+
+    # bird angles
     if translating < 0 or self.y < (self.height + 50):
     	if self.angle = self.MAX_ROTATION:
     		self.angle = self.MAX_ROTATION
@@ -61,7 +69,24 @@ class Birds:
     		self.angle -= self.ROT_VELOCITY
 
 
+    def drawing(self, screen):
+        # set wich img of bird will be used
+        self.img_count += 1
 
+        if self.img_count < self.ANIMATION_TIME:
+            self.img = self.IMGS[0]
 
+        elif self.img_count <self.ANIMATION_TIME*2:
+            self.img = self.IMGS[1]
+
+        elif self.img_count <self.ANIMATION_TIME*3:
+            self.img = self.IMGS[2]
+
+        elif self.img_count <self.ANIMATION_TIME*4:
+            self.img = self.IMGS[1]
+
+        elif self.img_count <self.ANIMATION_TIME*4 + 1:
+            self.img = self.IMGS[0]
+            self.img_count = 0
 
 
