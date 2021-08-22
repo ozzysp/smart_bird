@@ -28,7 +28,7 @@ class Birds:
 	# general variables of birds
 	IMGS = BIRD_IMGS
 	MAX_ROTATION = 25
-	MAX_VELOCITY = 20
+	ROT_VELOCITY = 20
 	ANIMATION_TIME = 5
 
 	# general settings of bird moviments
@@ -52,8 +52,16 @@ class Birds:
     	 self.time += 1
         moviment = 1.5 * (self.time**2) + self.velocity * self.time
 
+    #restrict translating
+    if translating < 0 or self.y < (self.height + 50):
+    	if self.angle = self.MAX_ROTATION:
+    		self.angle = self.MAX_ROTATION
+    else:
+    	if self.angle > -90:
+    		self.angle -= self.ROT_VELOCITY
 
 
 
 
-        
+
+
