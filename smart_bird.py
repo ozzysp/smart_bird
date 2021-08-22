@@ -42,7 +42,7 @@ class Birds:
         self.img_count = 0
         self.image = self.IMGS[0]
 
-    # sets vertical moviment of bird
+    # sets vertical movement of bird
     def jump(self):
         self.velocity = -10.5
         self.time = 0
@@ -50,7 +50,7 @@ class Birds:
 
     def move(self):
     	self.time += 1
-        moviment = 1.5 * (self.time**2) + self.velocity * self.time
+        movement = 1.5 * (self.time**2) + self.velocity * self.time
 
     # restrict translating
         if translating > 16:
@@ -76,17 +76,33 @@ class Birds:
         if self.img_count < self.ANIMATION_TIME:
             self.img = self.IMGS[0]
 
-        elif self.img_count <self.ANIMATION_TIME*2:
+        elif self.img_count <self.ANIMATION_TIME * 2:
             self.img = self.IMGS[1]
 
-        elif self.img_count <self.ANIMATION_TIME*3:
+        elif self.img_count <self.ANIMATION_TIME * 3:
             self.img = self.IMGS[2]
 
-        elif self.img_count <self.ANIMATION_TIME*4:
+        elif self.img_count <self.ANIMATION_TIME * 4:
             self.img = self.IMGS[1]
 
-        elif self.img_count <self.ANIMATION_TIME*4 + 1:
+        elif self.img_count <self.ANIMATION_TIME * 4 + 1:
             self.img = self.IMGS[0]
             self.img_count = 0
+
+        # not flappy wing when bird falls
+        if self.angle <= -80:
+            self.img = self.IMGS[1]
+            self.img_count = self.ANIMATION_TIME * 2
+
+
+
+
+
+
+
+
+
+
+
 
 
