@@ -222,7 +222,69 @@ def main(genomes, config):
         running = True
         while running:
             clock.tick(30)
-            
+
+            for episode in pygame.event.get():
+                if episode.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    quit()
+                if not PLAYING_AI:
+                    if episode.type == pygame.KEYDOWN:
+                        if episode.key == pygame.K_SPACE:
+                            for bird in birds:
+                                bird.jump()
+
+        pipe_index = 0
+        if len(birds) > 0:
+            if len(pipes) > 1 and birds[0].x > (pipes[0].x + pipes[0].PIPE_TOP.get_width()):
+                pipe_index = 1
+        else:
+            running = False
+            break
+
+
+        # moving stuffs
+        for i, bird in enumerate(birds):
+            bird.move
+
+        genome_list[i].fitness += 0.1
+        output = networks[i].((bird.y,
+                                abs(bird.y - pipes[pipe_index].height),
+                                abs(bird.y - pipes[pipe_index].post_base)
+
+        if output[0] > 0.5:
+            bird.jump()
+
+    floor.move()
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
