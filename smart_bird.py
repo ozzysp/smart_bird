@@ -94,8 +94,37 @@ class Birds:
             self.img = self.IMGS[1]
             self.img_count = self.ANIMATION_TIME * 2
 
+        # draw an image
+        rotated_img = pygame.transform.rotate(self.img, self.angle)
+        post_center_img = self.img.get_rect(topleft=(self.x, self.y)).center
+        rectangle = rotated_img.get_rect(center = post_center_img)
+        screen.blit(rotated_img, rectangle.topleft)
 
 
+    def get_mask(self):
+        return pygame.mask.from_surface(self.img)
+
+
+
+class Pipe:
+    DISTANCE = 200
+    VELOCITY = 5
+
+    def __init__(self, x):
+        self.x = x
+        self.height = 0
+        self.post_top = 0
+        self.post_base = 0
+        self.PIPE_TOP = pygame.transform.flip(PIPE_IMG, False, True)
+        self.PIPE_BASE = PIPE_IMG
+        self.passed = False
+        self.define_height()
+
+    def define_height(self):
+        screen.blit(self.PIPE_TOP, (self.x, self.post_top))
+        screen.blit(self.PIPE_BASE (self.x, self.post_base))
+
+    
 
 
 
