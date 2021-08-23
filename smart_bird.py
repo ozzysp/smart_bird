@@ -187,6 +187,57 @@ def draw_screen(screen, birds, pipes, floor, score)
         screen.blit(text, (10, 10))
 
 
+    floor.draw(screen)
+    pygame.display.update()
+
+
+
+def main(genomes, config):
+    global GENERATION
+    GENERATION += 1
+
+
+    if PLAYING_AI:
+        networks = []
+        genome_list = []
+        birds = []
+
+
+        for -, genome in genomes:
+            networks = neat.nn.FeedForwardNetwork.create(genome, config)
+            networks.append(network)
+            genome.fitness = 0
+            genome_list.append(genome)
+            birds.append(Bird(230, 350))
+
+        else:
+            birds = [Bird(230, 350)]
+
+        floor = Floor(730)
+        pipes = [Pipe(700)]
+        screen = pygame.display.set_mode(SCREEN_WIDHT, SCREEN_HEIGHT)
+        score = 0
+        clock = pygame.time.Clock()
+
+        running = True
+        while running:
+            clock.tick(30)
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
