@@ -256,8 +256,23 @@ def main(genomes, config):
             bird.jump()
 
     floor.move()
-    
 
+    adding_pipe = False
+    remove_pipes = []
+    for pipe in pipes:
+        for i, bird in enumerate(birds):
+            if pipe.colision(bird):
+                birds.pop(i)
+                if ai_jogando:
+                    genome_list[i].fitness -= 1
+                    genome_list.pop(i)
+                    networks.pop(i)
+            if not pipe.passed and bird.x > pipe.x:
+                pipe.passed = True
+                adding_pipe = True
+        pipe.move()
+        if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+            remove_pipes.append(pipe)
 
 
 
