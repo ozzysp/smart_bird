@@ -124,7 +124,58 @@ class Pipe:
         screen.blit(self.PIPE_TOP, (self.x, self.post_top))
         screen.blit(self.PIPE_BASE (self.x, self.post_base))
 
-    
+
+    def move(self):
+        self.x -= self.VELOCITY
+
+    def drawing(self, screen):
+        screen.blit(self.PIPE_TOP, (self.x, self.post_top))
+        screen.blit(self.PIPE_BASE, (self.x, self.post_base))
+
+    def colision(self, bird):
+        bird_mask = bird.get_mask()
+        top_mask = pygame.mask.from_surface(self.PIPE_TOP)
+        base_mask = pygame.mask.from_surface(self.PIPE_BASE)
+
+        top_distance = (self.x - bird.x, self.post_top - round(bird.y))
+        base_distance = (self.x - bird.x, self.post_base - round(bird.y))
+
+        if base_point or top_point:
+            return True
+
+        else:
+            return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
