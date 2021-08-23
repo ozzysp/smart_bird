@@ -171,10 +171,20 @@ class Floor:
         screen.blit(self.IMG, (self.x2, self.y))
 
 
+def draw_screen(screen, birds, pipes, floor, score)
+    screen.blit(BACKGROUN_IMG, (0, 0))
+    for bird in birds:
+        bird.draw(screen)
+    for pipe in pipes:
+        pipe.draw(screen)
 
 
+    text = SCORE_FONT.render(f'Score: {score}', 1, (255, 255, 255))
+    screen.blit(text, (SCREEN_WIDHT - 10 - text.get_width(), 10))
 
-
+    if PLAYING_AI:
+        text = SCORE_FONT.render(f"Gen: {GENERATION}", 1, (255, 255, 255))
+        screen.blit(text, (10, 10))
 
 
 
