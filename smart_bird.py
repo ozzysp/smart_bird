@@ -274,6 +274,23 @@ def main(genomes, config):
         if pipe.x + pipe.PIPE_TOP.get_width() < 0:
             remove_pipes.append(pipe)
 
+    if adding_pipe:
+        score += 1
+        pipes.append(Pipe(600))
+        for genome in genome_list:
+            genome.fitness += 5
+    for pipe in remove_pipes:
+        pipes.remove(pipe)
+
+    for i, bird in enumerate(birds):
+        if (bird.y + bird.img.get_height()) > floor.y or bird.y < 0:
+            pbirds.pop(i)
+            if PLAYING_AI:
+                genome_list.pop(i)
+                networks.pop(i)
+
+    draw_screen(screen, birds, pipes, floor, score)
+
 
 
 
