@@ -292,10 +292,27 @@ def main(genomes, config):
     draw_screen(screen, birds, pipes, floor, score)
 
 
+def run(path_config):
+    config = neat.config.Config(neat.DefaultGenome,
+                                neat.DefaultReproduction,
+                                neat.DefaultSpeciesSet,
+                                neat.DefaultStagnation,
+                                path_config)
+
+    population = neat.Population(config)
+    population.add_reporter(neat.StdOutReporter(True))
+    population.add_reporter(neat.StatisticsReporter())
+
+    if PLAYING_AI:
+        population.run(main, 50)
+    else:
+        main(None, None)
 
 
-
-
+if __name__ == '__main__':
+    path = os.path.dirname(__file__)
+    path_config = os.path.join(caminho, 'config.txt')
+    run(path_config)
 
 
 
