@@ -154,101 +154,17 @@ class Floor:
 
 
 
-def main(genomes, config):
-    global GENERATION
-    GENERATION += 1
-
-
-    if PLAYING_AI:
-        networks = []
-        genome_list = []
-        birds = []
-
-
-        for _, genome in genomes:
-            networks = neat.nn.FeedForwardNetwork.create(genome, config)
-            networks.append(network)
-            genome.fitness = 0
-            genome_list.append(genome)
-            birds.append(Bird(230, 350))
-
-        else:
-            birds = [Bird(230, 350)]
-
-        floor = Floor(730)
-        pipes = [Pipe(700)]
-        screen = pygame.display.set_mode(SCREEN_WIDHT, SCREEN_HEIGHT)
-        score = 0
-        clock = pygame.time.Clock()
-
-        running = True
-        while running:
-            clock.tick(30)
-
-            for episode in pygame.event.get():
-                if episode.type == pygame.QUIT:
-                    running = False
-                    pygame.quit()
-                    quit()
-                if not PLAYING_AI:
-                    if episode.type == pygame.KEYDOWN:
-                        if episode.key == pygame.K_SPACE:
-                            for bird in birds:
-                                bird.jump()
-
-        pipe_index = 0
-        if len(birds) > 0:
-            if len(pipes) > 1 and birds[0].x > (pipes[0].x + pipes[0].PIPE_TOP.get_width()):
-                pipe_index = 1
-        else:
-            running = False
-            break
-
-
-        # moving stuffs
-        for i, bird in enumerate(birds):
-            bird.move
-        genome_list[i].fitness += 0.1
-        output = networks[i].((bird.y, abs(bird.y - pipes[pipe_index].height), abs(bird.y - pipes[pipe_index].post_base)
-            if output[0] > 0.5:
-                bird.jump()
-
-    floor.move()
-
-    adding_pipe = False
-    remove_pipes = []
+def draw_screen(screen, birds, pipes, floor, score):
+    screen.blit(BACKGROUND_IMG, (0, 0))
+    for bird in birds:
+        bird.draw(screen)
     for pipe in pipes:
-        for i, bird in enumerate(birds):
-            if pipe.colision(bird):
-                birds.pop(i)
-                if ai_jogando:
-                    genome_list[i].fitness -= 1
-                    genome_list.pop(i)
-                    networks.pop(i)
-            if not pipe.passed and bird.x > pipe.x:
-                pipe.passed = True
-                adding_pipe = True
-        pipe.move()
-        if pipe.x + pipe.PIPE_TOP.get_width() < 0:
-            remove_pipes.append(pipe)
+        pipe.draw(screen)
 
-    if adding_pipe:
-        score += 1
-        pipes.append(Pipe(600))
-        for genome in genome_list:
-            genome.fitness += 5
-    for pipe in remove_pipes:
-        pipes.remove(pipe)
-
-    for i, bird in enumerate(birds):
-        if (bird.y + bird.img.get_height()) > floor.y or bird.y < 0:
-            pbirds.pop(i)
-            if PLAYING_AI:
-                genome_list.pop(i)
-                networks.pop(i)
-
-    draw_screen(screen, birds, pipes, floor, score)
-
+    text = SCORE_FONT.render(f'Score: {score}', 1, (255, 255, 255))
+    screen.blit(text, (SCREEN_WIDTH - 10 - text.get_width(), 10))
+    floor.draw(screen)
+    pygame.display.update()
 
 def run(path_config):
     config = neat.config.Config(neat.DefaultGenome,
