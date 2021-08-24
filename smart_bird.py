@@ -8,12 +8,12 @@ import neat
 PLAYING_AI = True
 GENERATION = 0
 
-SCREEN_WIDHT = 500
+SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 800
 
 PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'pipe.png')))
 FLOOR_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'base.png')))
-BACKGROUN_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bg.png')))
+BACKGROUND_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bg.png')))
 BIRD_IMGS = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird1.png'))),
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird2.png'))),
@@ -26,13 +26,12 @@ SCORE_FONT = pygame.font.SysFont('arial', 40)
 
 class Birds:
 	# general variables of birds
-	IMGS = BIRD_IMGS
-	MAX_ROTATION = 25
-	ROT_VELOCITY = 20
-	ANIMATION_TIME = 5
+    IMGS = BIRD_IMGS
+    MAX_ROTATION = 25
+    ROT_VELOCITY = 20
+    ANIMATION_TIME = 5
 
-	# general settings of bird moviments
-	    def __init__(self, x, y):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
         self.angle = 0
@@ -42,7 +41,6 @@ class Birds:
         self.img_count = 0
         self.image = self.IMGS[0]
 
-    # sets vertical movement of bird
     def jump(self):
         self.velocity = -10.5
         self.time = 0
@@ -50,9 +48,8 @@ class Birds:
 
     def move(self):
     	self.time += 1
-        movement = 1.5 * (self.time**2) + self.velocity * self.time
+        movement = 1.5 * (self.time ** 2) + self.velocity * self.time
 
-    # restrict translating
         if translating > 16:
             translating = 16
         elif translating < 0:
@@ -62,15 +59,15 @@ class Birds:
 
     # bird angles
     if translating < 0 or self.y < (self.height + 50):
-    	if self.angle = self.MAX_ROTATION:
-    		self.angle = self.MAX_ROTATION
+        if self.angle = self.MAX_ROTATION:
+            self.angle = self.MAX_ROTATION
     else:
     	if self.angle > -90:
     		self.angle -= self.ROT_VELOCITY
 
 
     def drawing(self, screen):
-        # set wich img of bird will be used
+        # set witch img of bird will be used
         self.img_count += 1
 
         if self.img_count < self.ANIMATION_TIME:
@@ -171,7 +168,7 @@ class Floor:
         screen.blit(self.IMG, (self.x2, self.y))
 
 
-def draw_screen(screen, birds, pipes, floor, score)
+def draw_screen(screen, birds, pipes, floor, score):
     screen.blit(BACKGROUN_IMG, (0, 0))
     for bird in birds:
         bird.draw(screen)
@@ -203,7 +200,7 @@ def main(genomes, config):
         birds = []
 
 
-        for -, genome in genomes:
+        for _, genome in genomes:
             networks = neat.nn.FeedForwardNetwork.create(genome, config)
             networks.append(network)
             genome.fitness = 0
@@ -246,14 +243,10 @@ def main(genomes, config):
         # moving stuffs
         for i, bird in enumerate(birds):
             bird.move
-
         genome_list[i].fitness += 0.1
-        output = networks[i].((bird.y,
-                                abs(bird.y - pipes[pipe_index].height),
-                                abs(bird.y - pipes[pipe_index].post_base)
-
-        if output[0] > 0.5:
-            bird.jump()
+        output = networks[i].((bird.y, abs(bird.y - pipes[pipe_index].height), abs(bird.y - pipes[pipe_index].post_base)
+            if output[0] > 0.5:
+                bird.jump()
 
     floor.move()
 
