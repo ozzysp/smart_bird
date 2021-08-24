@@ -1,8 +1,8 @@
-import pygame
+# Project made by Ozzy
+
 import os
 import random
-import neat
-
+import pygame
 
 # Global variables
 PLAYING_AI = True
@@ -19,19 +19,18 @@ BIRD_IMGS = [
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird2.png'))),
     pygame.transform.scale2x(pygame.image.load(os.path.join('imgs', 'bird3.png'))),
 ]
-
 pygame.font.init()
 SCORE_FONT = pygame.font.SysFont('arial', 40)
 
 
 class Birds:
-	# general variables of birds
     IMGS = BIRD_IMGS
     MAX_ROTATION = 25
-    ROT_VELOCITY = 20
+    ROTATION_VEL = 20
     ANIMATION_TIME = 5
 
     def __init__(self, x, y):
+        self.img = self.IMGS[1]
         self.x = x
         self.y = y
         self.angle = 0
@@ -47,61 +46,46 @@ class Birds:
         self.height = self.y
 
     def move(self):
-    	self.time += 1
-        movement = 1.5 * (self.time ** 2) + self.velocity * self.time
-
-        if translating > 16:
-            translating = 16
-        elif translating < 0:
-            translating -=2
-        
-        self.y += translating
-
-    # bird angles
-    if translating < 0 or self.y < (self.height + 50):
-        if self.angle = self.MAX_ROTATION:
-            self.angle = self.MAX_ROTATION
-    else:
-    	if self.angle > -90:
-    		self.angle -= self.ROT_VELOCITY
-
+        self.time += 1
+        displacement = 1.5 * (self.time ** 2) + self.velocity * self.time
+        if displacement > 16:
+            displacement = 16
+        elif displacement < 0:
+            displacement -= 2
+        self.y += displacement
+        if displacement < 0 or self.y < (self.height + 50):
+            if self.angle < self.MAX_ROTATION:
+                self.angle = self.MAX_ROTATION
+        else:
+            if self.angle > -90:
+                self.angle -= self.ROTATION_VEL
 
     def drawing(self, screen):
         # set witch img of bird will be used
         self.img_count += 1
-
         if self.img_count < self.ANIMATION_TIME:
             self.img = self.IMGS[0]
-
-        elif self.img_count <self.ANIMATION_TIME * 2:
+        elif self.img_count < self.ANIMATION_TIME * 2:
             self.img = self.IMGS[1]
-
-        elif self.img_count <self.ANIMATION_TIME * 3:
+        elif self.img_count < self.ANIMATION_TIME * 3:
             self.img = self.IMGS[2]
-
-        elif self.img_count <self.ANIMATION_TIME * 4:
+        elif self.img_count < self.ANIMATION_TIME * 4:
             self.img = self.IMGS[1]
-
-        elif self.img_count <self.ANIMATION_TIME * 4 + 1:
+        elif self.img_count < self.ANIMATION_TIME * 4 + 1:
             self.img = self.IMGS[0]
             self.img_count = 0
-
         # not flappy wing when bird falls
         if self.angle <= -80:
-            self.img = self.IMGS[1]
             self.img_count = self.ANIMATION_TIME * 2
-
         # draw an image
         rotated_img = pygame.transform.rotate(self.img, self.angle)
         post_center_img = self.img.get_rect(topleft=(self.x, self.y)).center
-        rectangle = rotated_img.get_rect(center = post_center_img)
+        rectangle = rotated_img.get_rect(center=post_center_img)
         screen.blit(rotated_img, rectangle.topleft)
-
 
     def get_mask(self):
         return pygame.mask.from_surface(self.img)
-
-
+        
 
 class Pipe:
     DISTANCE = 200
@@ -118,8 +102,8 @@ class Pipe:
         self.define_height()
 
     def define_height(self):
-        screen.blit(self.PIPE_TOP, (self.x, self.post_top))
-        screen.blit(self.PIPE_BASE (self.x, self.post_base))
+        self.height = random.randrange(50, 450)
+        self.
 
 
     def move(self):
