@@ -103,8 +103,8 @@ class Pipe:
 
     def define_height(self):
         self.height = random.randrange(50, 450)
-        self.
-
+        self.post_base = self.height - self.PIPE_TOP.get_height()
+        self.post_top = self.height + self.DISTANCE
 
     def move(self):
         self.x -= self.VELOCITY
@@ -117,15 +117,16 @@ class Pipe:
         bird_mask = bird.get_mask()
         top_mask = pygame.mask.from_surface(self.PIPE_TOP)
         base_mask = pygame.mask.from_surface(self.PIPE_BASE)
-
         top_distance = (self.x - bird.x, self.post_top - round(bird.y))
         base_distance = (self.x - bird.x, self.post_base - round(bird.y))
+        top_point = bird_mask.overlap(top_mask, top_distance)
+        base_point = bird_mask.overlap(base_mask, base_distance)
 
         if base_point or top_point:
             return True
-
         else:
             return False
+
 
 
 class Floor:
