@@ -85,7 +85,7 @@ class Birds:
 
     def get_mask(self):
         return pygame.mask.from_surface(self.img)
-        
+
 
 class Pipe:
     DISTANCE = 200
@@ -165,6 +165,50 @@ def draw_screen(screen, birds, pipes, floor, score):
     screen.blit(text, (SCREEN_WIDTH - 10 - text.get_width(), 10))
     floor.draw(screen)
     pygame.display.update()
+
+
+def main():
+        birds = [Bird(230, 350)]
+        floor = Floor(730)
+        pipes = [Pipe(700)]
+        screen = pygame.display.set_mode(SCREEN_WIDTH, SCREEN_HEIGHT)
+        score = 0
+        clock = pygame.time.Clock()
+
+        running = True
+        while running:
+            clock.tick(30)
+
+            for episode in pygame.event.get():
+                if episode.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    quit()
+                if episode.type == pygame.KEYDOWN:
+                    if episode.key == pygame.K_SPACE:
+                        for bird in birds:
+                            bird.jump()
+            for bird in birds:
+                bird.move()
+            floor.move()
+
+        add_pipe = False
+        remove_pipes = []
+        for pipe in pipes:
+            for i, bird in enumerate(birds):
+                if pipe.colision(bird):
+                    bird.pop(i)
+                if not pipe.passed and bird.x > pipe.x:
+                    pipe.passed = True
+                    add_pipe = True
+            pipe.move()
+            if pipe.x + pipe.PIPE_TOP.get_width() < 0:
+                remove_pipes.append(pipe)
+
+        if add_pipe:
+            score += 1
+            pipes.append(Pipe(600))
+
 
 def run(path_config):
     config = neat.config.Config(neat.DefaultGenome,
