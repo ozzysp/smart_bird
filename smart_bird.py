@@ -23,7 +23,7 @@ pygame.font.init()
 SCORE_FONT = pygame.font.SysFont('arial', 40)
 
 
-class Birds:
+class Bird:
     IMGS = BIRD_IMGS
     MAX_ROTATION = 25
     ROTATION_VEL = 20
@@ -103,8 +103,8 @@ class Pipe:
 
     def define_height(self):
         self.height = random.randrange(50, 450)
-        self.post_base = self.height - self.PIPE_TOP.get_height()
-        self.post_top = self.height + self.DISTANCE
+        self.post_top = self.height - self.PIPE_TOP.get_height()
+        self.post_base = self.height + self.DISTANCE
 
     def move(self):
         self.x -= self.VELOCITY
@@ -128,7 +128,6 @@ class Pipe:
             return False
 
 
-
 class Floor:
     VELOCITY = 5
     WIDTH = FLOOR_IMG.get_width()
@@ -144,14 +143,13 @@ class Floor:
         self.x2 -= self.VELOCITY
 
         if self.x1 + self.WIDTH < 0:
-            self.x1 = self.x1 + self.WIDTH
+            self.x1 = self.x2 + self.WIDTH
         if self.x2 + self.WIDTH < 0:
-            self.x2 = self.x2 + self.WIDTH
+            self.x2 = self.x1 + self.WIDTH
 
     def drawing(self, screen):
         screen.blit(self.IMG, (self.x1, self.y))
         screen.blit(self.IMG, (self.x2, self.y))
-
 
 
 def draw_screen(screen, birds, pipes, floor, score):
@@ -166,12 +164,11 @@ def draw_screen(screen, birds, pipes, floor, score):
     floor.draw(screen)
     pygame.display.update()
 
-
 def main():
         birds = [Bird(230, 350)]
         floor = Floor(730)
         pipes = [Pipe(700)]
-        screen = pygame.display.set_mode(SCREEN_WIDTH, SCREEN_HEIGHT)
+        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         score = 0
         clock = pygame.time.Clock()
 
@@ -209,93 +206,20 @@ def main():
             score += 1
             pipes.append(Pipe(600))
 
+        for pipe in remove_pipes:
+            pipe.remove(pipe)
 
-def run(path_config):
-    config = neat.config.Config(neat.DefaultGenome,
-                                neat.DefaultReproduction,
-                                neat.DefaultSpeciesSet,
-                                neat.DefaultStagnation,
-                                path_config)
+        for i, bird in enumerate(birds):
+            if (bird.y + bird.img.get_height()) > floor.y or bird.y < 0:
+                bird.pop(i)
 
-    population = neat.Population(config)
-    population.add_reporter(neat.StdOutReporter(True))
-    population.add_reporter(neat.StatisticsReporter())
+        if len(birds) > 0:
+            if len(pipes) > 1 and birds[0].x > (pipes[0].x + pipes[0].PIPE_TOP.get_width()):
+                pipe_index = 1
 
-    if PLAYING_AI:
-        population.run(main, 50)
-    else:
-        main(None, None)
+        draw_screen(screen, birds, pipes, floor, score)
 
 
 if __name__ == '__main__':
-    path = os.path.dirname(__file__)
-    path_config = os.path.join(caminho, 'config.txt')
-    run(path_config)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    main()
 
